@@ -12,6 +12,7 @@ type Context struct {
 	Path       string
 	Method     string
 	StatusCode int
+	Params     map[string]string
 }
 
 func newContext(w http.ResponseWriter, r *http.Request) *Context {
@@ -70,4 +71,10 @@ func (c *Context) HTML(code int, html string) {
 	c.SetHeader("Content-Type", "text/html")
 	c.Status(code)
 	c.Writer.Write([]byte(html))
+}
+
+// 解析动态参数的值
+func (c *Context) Param(key string) string {
+	val := c.Params[key]
+	return val
 }
